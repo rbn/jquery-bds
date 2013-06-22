@@ -1,0 +1,9 @@
+Biz Dev Sim (bds) notes
+-----------------------
+
+namespace: bds
+events:
+  - bds_start
+  - bds_roll
+  - bds_stage_complete
+  - bds_game_complete
