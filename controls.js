@@ -1,6 +1,6 @@
 // //////////////////
 // control container
-bds.make_actions = function( $content ) {
+bds.makeActions = function( $content ) {
   var self = {},
       $actions = $('<div id="actions">'),
       $table = $('<table><tbody></tbody></table>'),
@@ -10,7 +10,7 @@ bds.make_actions = function( $content ) {
   $actions.append($table);
   
   $.each(['start', 'roller', 'dice', 'go', 
-            'score', 'start_over'], function() {
+            'score', 'startOver'], function() {
 
     var $td = $('<td>'),
         $div = $('<div id=' + this + '>');
@@ -29,9 +29,9 @@ bds.make_actions = function( $content ) {
 // /////////////////////
 //  page
 //
-bds.make_page = function( $content, svg_container_id ) {
+bds.makePage = function( $content, svgContainerId ) {
   var self = {},
-      $board = $content.find(svg_container_id),
+      $board = $content.find(svgContainerId),
       $stage = $('<div id="stage">');
 
   $stage.hide();
@@ -47,28 +47,28 @@ bds.make_page = function( $content, svg_container_id ) {
 // //////////////////
 // dice constructor
 //
-bds.make_dice = function($container) {
+bds.makeDice = function($container) {
   var self = {},
       $die = $('<a href="#"></a>')
       ;
 
   var roll = function() {
-    self.current_face =  Math.floor((Math.random()*3) + 1);
+    self.currentFace =  Math.floor((Math.random()*3) + 1);
     on();
-    $.publish('bds_rolled');
+    $.publish('bdsRolled');
   };
 
   var on = function() {
     var img = '<img src="/assets/dice/Blue_';
-    img += self.current_face;
+    img += self.currentFace;
     img += '.png" />';
     $die.html('').append(img);
   };
 
   var off = function() {
     var img = '<img src="/assets/dice/Blue_';
-    img += self.current_face;
-    img += '_frozen';
+    img += self.currentFace;
+    img += 'Frozen';
     img += '.png" />';
     $die.html('').append(img);
   };
@@ -86,11 +86,11 @@ bds.make_dice = function($container) {
 // roller button ctr
 //
 // TODO: can these control elems user a factory?
-bds.make_roller = function($container) {
+bds.makeRoller = function($container) {
   var self = {},
       $roller = $('<a href="#"></a>'),
       $div = $('<div>'), 
-      $div_gray = $('<div>') 
+      $divGray = $('<div>') 
       ;
 
   // set w/h same as background image
@@ -99,18 +99,18 @@ bds.make_roller = function($container) {
       .css('background-repeat', 'no-repeat')
       .css('display', 'none');
 
-  $div_gray.css('width', '75px').css('height', '75px')
-      .css('background-image', 'url("/assets/controls/roller1_gray.jpg")')
+  $divGray.css('width', '75px').css('height', '75px')
+      .css('background-image', 'url("/assets/controls/roller1Gray.jpg")')
       .css('background-repeat', 'no-repeat');
 
   // stack divs on top of each other
-  $div_gray.append($div);
-  $roller.append($div_gray);
+  $divGray.append($div);
+  $roller.append($divGray);
 
   // wire events
 
   $roller.on('click', function() {
-    $.publish('bds_rolling'); 
+    $.publish('bdsRolling'); 
   });
   
   var on = function() {
@@ -135,7 +135,7 @@ bds.make_roller = function($container) {
 ///////////////////////////
 // start button constructor
 // 
-bds.make_start = function($container) {
+bds.makeStart = function($container) {
   var self = {},
       $start = $('<a href="#"></a>')
       ;
@@ -145,12 +145,12 @@ bds.make_start = function($container) {
   };
 
   var off = function() {
-    $start.html('').append('<img src="/assets/controls/start_gray.jpg" />');
+    $start.html('').append('<img src="/assets/controls/startGray.jpg" />');
   };
 
   // wire events
   $start.on('click',function() {
-    $.publish('bds_start');
+    $.publish('bdsStart');
   });
 
   // API
@@ -166,12 +166,12 @@ bds.make_start = function($container) {
 // ///////////////////
 // go button ctr
 // 
-bds.make_go = function($container) {
+bds.makeGo = function($container) {
   var self = {},
       $go = $('<a href="#"></a>');
 
   var go = function() {
-    $.publish('bds_go'); 
+    $.publish('bdsGo'); 
   };
 
   var on = function() {
@@ -179,7 +179,7 @@ bds.make_go = function($container) {
   };
 
   var off = function() {
-    $go.html('<img src="/assets/controls/go_gray.png" />');
+    $go.html('<img src="/assets/controls/goGray.png" />');
   };
 
   // wire events
@@ -199,15 +199,15 @@ bds.make_go = function($container) {
 //////////////////////////
 // score ctr
 //
-bds.make_score = function($container) {
+bds.makeScore = function($container) {
   var self = {},
       $div = $('<div>'),
       $label = $('<div>Score</div>'),
       $value = $('<div>');
 
   var on = function() {
-    var current_score = bds.db.get('score') || 0;
-    $value.text( current_score );
+    var currentScore = bds.db.get('score') || 0;
+    $value.text( currentScore );
   };
 
   var update = function() {
@@ -235,25 +235,25 @@ bds.make_score = function($container) {
 //////////////////////////////
 //  start over
 //
-bds.make_start_over = function($container) {
+bds.makeStartOver = function($container) {
   var self = {},
-      $start_over = $('<div>');
+      $startOver = $('<div>');
 
   var on = function() {
-    $start_over.html('<img src="/assets/controls/start-over.jpg" />');
+    $startOver.html('<img src="/assets/controls/start-over.jpg" />');
   };
 
   var off = function() {
   };
 
   // wire events
-  $start_over.on('click', function() {
+  $startOver.on('click', function() {
     alert('not working yet');
   });
  
   // init
   on();
-  $container.html($start_over);
+  $container.html($startOver);
 
   self.on = on;
   self.off = off;
@@ -264,16 +264,16 @@ bds.make_start_over = function($container) {
 ////////////////////////////////
 // banner
 //
-bds.make_banner = function($container) {
+bds.makeBanner = function($container) {
   var self = {},
-      $top_banner = $('<div id="top_banner">'),
+      $topBanner = $('<div id="topBanner">'),
       $info = $('<div>'),
       $dashboard = $('<div>');
 
   //$.each(['info', 'how to play', 'dashboard'], function() {
-  for(link in bds.info_bar) {
-    var $a = $('<a href="' + bds.info_bar[link].link + '"></a>');
-    $a.text(bds.info_bar[link].text);
+  for(link in bds.infoBar) {
+    var $a = $('<a href="' + bds.infoBar[link].link + '"></a>');
+    $a.text(bds.infoBar[link].text);
     $info.append( $a );
     $info.append( ' | ' );
   }
@@ -299,9 +299,9 @@ bds.make_banner = function($container) {
   $dashboard.append('<p>get from server? ... </p>');
   $info.css('padding', '6px').css('float', 'right');
 
-  $top_banner.append($info);
+  $topBanner.append($info);
   $dashboard.prependTo($container);
-  $top_banner.prependTo($container);
+  $topBanner.prependTo($container);
 
   // wire events
 

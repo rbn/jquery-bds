@@ -1,8 +1,8 @@
-bds.make_board = function(svg, json, options) {
-  var circle_class = 'bdsCircle',
-      label_class = 'bdsLabel';
+bds.makeBoard = function(svg, json, options) {
+  var circleClass = 'bdsCircle',
+      labelClass = 'bdsLabel';
 
-  var draw_circles = function () {
+  var drawCircles = function () {
 
     var defs = svg.append('svg:defs');
     var pattern = defs.selectAll('pattern')
@@ -37,7 +37,7 @@ bds.make_board = function(svg, json, options) {
                             .attr('cx', function (d) { return d.x; })
                             .attr('cy', function (d) { return d.y; })
                             .attr('r', function(d) { return d.r; })
-                            .attr('class', circle_class)
+                            .attr('class', circleClass)
                             .attr('id', function(d) { return d.id; })
                             .attr('data-next', function(d) { return JSON.stringify(d.nexts); })
                             .attr('data-start', function(d) { return d.start; })
@@ -50,7 +50,7 @@ bds.make_board = function(svg, json, options) {
       .attr('dx', function(d){return d.x - 80; })
       .attr('dy', function(d){return d.y; }) 
       .attr('fill', 'none')
-      .attr('class', label_class)
+      .attr('class', labelClass)
       .text(function(d){ return d.label; });
       
 
@@ -61,7 +61,7 @@ bds.make_board = function(svg, json, options) {
   //
   //  var lineData = [ { "x": 30,   "y": 30},  { "x": 70,  "y": 70},
   //                   { "x": 70,  "y": 70}, { "x": 110,  "y": 110}];
-  var draw_path = function () {
+  var drawPath = function () {
 
     // TODO: clean this up - fake memo - puts all circle data in 
     // an object referencable by id - as of now has to be done
@@ -80,7 +80,7 @@ bds.make_board = function(svg, json, options) {
                               .interpolate('linear');         //.interpolate("linear");
 
     // from/to => { x:x, y:y}
-    var get_path_array = function(from, to) {
+    var getPathArray = function(from, to) {
       return [ from, to ];
     };
 
@@ -92,10 +92,10 @@ bds.make_board = function(svg, json, options) {
         if (! next ) return; // TODO: this has a code smell - figure out better way
         var to = { 'x' : next.x, 'y': next.y };
         var lineGraph = svg.append('path')
-                           .attr('d', lineFunction(get_path_array(from, to)))
-                           .attr('stroke', bds.path_color)
-                           .attr('stroke-width', bds.path_width)
-                           .attr('stroke-dasharray', bds.dash_array)
+                           .attr('d', lineFunction(getPathArray(from, to)))
+                           .attr('stroke', bds.pathColor)
+                           .attr('stroke-width', bds.pathWidth)
+                           .attr('stroke-dasharray', bds.dashArray)
                            .attr('stroke-linecap', 'round')
                            .style('fill', 'red')
                            ;
@@ -105,9 +105,9 @@ bds.make_board = function(svg, json, options) {
     return;
     
     var lineGraph = svg.append('path')
-                       .attr('d', lineFunction(transform_circles_to_path(json)))
-                       .attr('stroke', bds.path_color)
-                       .attr('stroke-width', bds.path_width)
+                       .attr('d', lineFunction(transformCirclesToPath(json)))
+                       .attr('stroke', bds.pathColor)
+                       .attr('stroke-width', bds.pathWidth)
                        .style('fill', 'none');
 
 
@@ -119,20 +119,20 @@ bds.make_board = function(svg, json, options) {
     //             .endAngle(100);
 
     // var arcGraph = svg.append('path')
-    //                   .attr('d', arc(transform_circles_to_path(json)))
+    //                   .attr('d', arc(transformCirclesToPath(json)))
     //                   .attr('transform', 'translate(130,60)'); 
   };
 
   // initialization
-  draw_path();
-  draw_circles();
+  drawPath();
+  drawCircles();
 
-  $('.' + circle_class).each(function() {
+  $('.' + circleClass).each(function() {
      var label;
-     $(this).closest('g').find('.' + label_class).each(function() {
+     $(this).closest('g').find('.' + labelClass).each(function() {
       label = this;
      });
-     bds.make_circle(this, label);  
+     bds.makeCircle(this, label);  
   });
 
 };

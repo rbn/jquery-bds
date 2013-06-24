@@ -1,18 +1,18 @@
 // config
 
-bds.data_url = '/stage_data';
-bds.left_url = 'left'
-bds.path_width = 15;
-bds.path_color = 'blue';
-bds.dash_array = '1, 30';
+bds.dataUrl = '/stageData';
+bds.leftUrl = 'left'
+bds.pathWidth = 15;
+bds.pathColor = 'blue';
+bds.dashArray = '1, 30';
 
-bds.info_bar = {
+bds.infoBar = {
   info : 
       {
         text: 'info',
         link: '#'
       },
-  how_to_play :
+  howToPlay :
       {
         text: 'how to play',
         link: '#'
@@ -27,7 +27,7 @@ bds.info_bar = {
       text: 'save',
       link: '#'
     },
-  start_over :
+  startOver :
     {
       text: 'start over',
       link: '#'

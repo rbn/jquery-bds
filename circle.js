@@ -4,7 +4,7 @@ bds.circles = (function() {
 
   var add = function(id, circle) {
     self[id] = circle;
-    if ( circle.is_start() ) {
+    if ( circle.isStart() ) {
       self.start = circle;
       self.current = self.start;
      }
@@ -22,7 +22,7 @@ bds.circles = (function() {
     self.current.drop();
   };
 
-  var is_current = function(id) {
+  var isCurrent = function(id) {
     return self.current.id == id;
   };
 
@@ -34,10 +34,10 @@ bds.circles = (function() {
     }
 
     for(i = 0; i < n; i ++) {
-      var is_dest = ( i == n - 1 );
-      var next_id = self.current.next()[0]; // TODO: temporary - only looking at "first" next
-      self.current = self[next_id];
-      if (! is_dest ) {
+      var isDest = ( i == n - 1 );
+      var nextId = self.current.next()[0]; // TODO: temporary - only looking at "first" next
+      self.current = self[nextId];
+      if (! isDest ) {
         setTimeout(self.current.hop, i*250);
       }
     }
@@ -46,7 +46,7 @@ bds.circles = (function() {
   };
 
   // get list of potential next moves
-  var get_potentials = function(n, circle, potentials) {
+  var getPotentials = function(n, circle, potentials) {
     if ( n === undefined ) return []
     var circle = circle || self.current,
         potentials = potentials || [];
@@ -60,18 +60,18 @@ bds.circles = (function() {
     // recurse
     var nexts = circle.next();
     $.each(nexts, function() {
-      get_potentials( n - 1, get(this), potentials );
+      getPotentials( n - 1, get(this), potentials );
     });
 
     return potentials;
   };
   
-  var leave_and_land = function(n) {
+  var leaveAndLand = function(n) {
     leave();
     land(n);
   };
 
-  var complete_stage = function(callback) {
+  var completeStage = function(callback) {
     self.current.complete(callback);
     bds.keeper.add(10);
     track(self.current.id);
@@ -79,9 +79,9 @@ bds.circles = (function() {
 
   var track = function(id) {
     var arr = bds.db.get('completed');
-    var serialized_id = bds.db.get(id);
+    var serializedId = bds.db.get(id);
 
-    if (! ($.inArray(serialized_id, arr)  > -1 ) )
+    if (! ($.inArray(serializedId, arr)  > -1 ) )
       arr.push(id);
 
     bds.db.save('completed', arr);
@@ -92,33 +92,33 @@ bds.circles = (function() {
 
   // TODO: this method looks like something other than it is - fix!
   self.first = first;
-  self.is_current = is_current;
-  self.leave_and_land = leave_and_land;
-  self.complete_stage = complete_stage;
-  self.get_potentials = get_potentials;
+  self.isCurrent = isCurrent;
+  self.leaveAndLand = leaveAndLand;
+  self.completeStage = completeStage;
+  self.getPotentials = getPotentials;
 
   return self;
 })();
 
 // circle constructor
-bds.make_circle = function(elem, label) {
+bds.makeCircle = function(elem, label) {
   var self = {}, 
       $elem = $(elem),
       d3o = d3.select(elem),
-      starting_radius = d3o.attr('r'),
+      startingRadius = d3o.attr('r'),
       isBig = false,
       label = d3.select(label)
       ;
 
-  var pop = function(callback, hide_label) {
+  var pop = function(callback, hideLabel) {
     var callback = callback || bds.noop;
 
     d3o.transition()
        .duration(1000)
-       .attr('r', starting_radius * 4)
+       .attr('r', startingRadius * 4)
        .each('end', function() {
          callback();
-         if ( hide_label ) return;
+         if ( hideLabel ) return;
          label
             .attr('font-size', 20)
             .style('fill', 'black');
@@ -131,7 +131,7 @@ bds.make_circle = function(elem, label) {
   var drop = function() {
     d3o.transition()
        .duration(500)
-       .attr('r', starting_radius);
+       .attr('r', startingRadius);
     isBig = false;
 
     label.transition()
@@ -146,7 +146,7 @@ bds.make_circle = function(elem, label) {
       pop(drop, true);
   };
 
-  var is_start = function() {
+  var isStart = function() {
     return $elem.data('start');
   };
 
@@ -172,9 +172,9 @@ bds.make_circle = function(elem, label) {
    $elem.on('click', function() {
       // TODO: should id be private, getter/setter?
       // TODO: also should we be able to set circles.current like this? getter/setter?
-      $.publish('bds_depotentialize', [ self.id ]);
+      $.publish('bdsDepotentialize', [ self.id ]);
       bds.circles.current = self; 
-      $.publish('bds_play', [null, 3000]);
+      $.publish('bdsPlay', [null, 3000]);
    });
   };
 
@@ -183,12 +183,12 @@ bds.make_circle = function(elem, label) {
     $elem.off();
   };
 
-  var on_depotentialize = function(e, caller_id) {
-    if ( self.id == caller_id ) return;
+  var onDepotentialize = function(e, callerId) {
+    if ( self.id == callerId ) return;
     depotentialize();
   };
 
-  var complete = function(callback, short_label) {
+  var complete = function(callback, shortLabel) {
     var callback = callback || bds.noop;
 
     d3o.transition()
@@ -199,7 +199,7 @@ bds.make_circle = function(elem, label) {
           callback();
           label.style('fill', 'black');
 
-          if (short_label)
+          if (shortLabel)
             label.text('MC')
                  .attr('dx', function(d) { return d.x - 10; })
                  .attr('dy', function(d) { return d.y + 5; });
@@ -209,7 +209,7 @@ bds.make_circle = function(elem, label) {
   };
 
   var wire = function() {
-    $.subscribe('bds_depotentialize', on_depotentialize);
+    $.subscribe('bdsDepotentialize', onDepotentialize);
   };
 
   self.name = name;
@@ -217,7 +217,7 @@ bds.make_circle = function(elem, label) {
   self.drop = drop;
   self.hop = hop;
   self.sticky = false;
-  self.is_start = is_start;
+  self.isStart = isStart;
   self.next = next;
   self.play = play;
   self.potentialize = potentialize;

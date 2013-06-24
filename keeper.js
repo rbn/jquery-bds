@@ -4,9 +4,9 @@ bds.keeper = (function() {
       ;
 
   var add = function (n) {
-    var current_score = bds.db.get( SCORE ) || 0;
-    bds.db.save( SCORE , current_score + n); 
-    $.publish('bds_score_change');
+    var currentScore = bds.db.get( SCORE ) || 0;
+    bds.db.save( SCORE , currentScore + n); 
+    $.publish('bdsScoreChange');
   };
 
   var score = function() {
