@@ -1,0 +1,8 @@
+/home/rich/bin/compressjs.sh "namespace.js config.js db.js common.js pubsub.js circle.js controls.js board.js keeper.js app.js plugin.js"
+
+for f in `find ./ -type f -regex './c[0-9]+\.js$'`; do
+  rm ./drop/*
+  cp $f ./drop/jquery-bds.js
+  rm $f
+done
+
