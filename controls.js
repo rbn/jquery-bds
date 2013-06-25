@@ -70,7 +70,7 @@ bds.makeDice = function($container) {
   var off = function() {
     var img = '<img src="/assets/dice/Blue_';
     img += self.currentFace;
-    img += 'Frozen';
+    img += '_frozen';
     img += '.png" />';
     $die.html('').append(img);
   };
