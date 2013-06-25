@@ -1,6 +1,7 @@
 // config
 
-bds.dataUrl = '/stageData';
+bds.version = '1.0.0';
+bds.dataUrl = '/stage_data';
 bds.leftUrl = 'left'
 bds.pathWidth = 15;
 bds.pathColor = 'blue';

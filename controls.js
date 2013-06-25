@@ -1,5 +1,6 @@
 // //////////////////
 // control container
+//
 bds.makeActions = function( $content ) {
   var self = {},
       $actions = $('<div id="actions">'),
@@ -12,11 +13,12 @@ bds.makeActions = function( $content ) {
   $.each(['start', 'roller', 'dice', 'go', 
             'score', 'startOver'], function() {
 
-    var $td = $('<td>'),
-        $div = $('<div id=' + this + '>');
+    var ctl = this,
+        $td = $('<td>'),
+        $div = $('<div id=' + ctl + '>');
     
     // create the control and expose it in bds namespace
-    bds[this] = bds['make_' + this]($div);
+    bds[ctl] = bds[ 'make' + ctl.capitalize() ]($div);
 
     $td.append($div);
     $tr.append($td);
