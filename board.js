@@ -16,17 +16,6 @@ bds.makeBoard = function(svg, json, options) {
                       .attr('height', 1)
                       .attr('width', 1);
 
-//     var images = pattern.selectAll('image')
-//                     .data([0])
-//                     .enter()
-//                     .append('svg:image')
-//                     .attr('x', function (d) { return 0; }) // TODO: scale these
-//                     .attr('y', function (d) { return 0; })
-//                     .attr('height', 35)
-//                     .attr('width', 35)
-//                     .attr('xlink:href', 'http://www.pco.noaa.gov/stormwatch/images/iconsm-waves.gif');
-// 
-
     var elem = svg.selectAll('g bds')
                         .data(json);
 
@@ -39,6 +28,7 @@ bds.makeBoard = function(svg, json, options) {
                             .attr('r', function(d) { return d.r; })
                             .attr('class', circleClass)
                             .attr('id', function(d) { return d.id; })
+                            .attr('data-name', function(d) { return d.internal_name; })
                             .attr('data-next', function(d) { return JSON.stringify(d.nexts); })
                             .attr('data-start', function(d) { return d.start; })
                             .style('fill', function(d) { return d.color; })
@@ -69,7 +59,7 @@ bds.makeBoard = function(svg, json, options) {
     var memo = (function() {
       var obj = {};
       $.each(json, function() {
-        obj[this.id] = this;
+        obj[this.internal_name] = this;
       });
       return obj;
     })();
@@ -77,7 +67,7 @@ bds.makeBoard = function(svg, json, options) {
     var lineFunction = d3.svg.line()
                               .x(function(d) { return d.x; })
                               .y(function(d) { return d.y; })
-                              .interpolate('linear');         //.interpolate("linear");
+                              .interpolate('linear');  
 
     // from/to => { x:x, y:y}
     var getPathArray = function(from, to) {
@@ -89,7 +79,7 @@ bds.makeBoard = function(svg, json, options) {
       var from = { 'x' : this.x, 'y': this.y };
       $.each(this.nexts, function() {
         var next = memo[this];
-        if (! next ) return; // TODO: this has a code smell - figure out better way
+        if (! next ) return; 
         var to = { 'x' : next.x, 'y': next.y };
         var lineGraph = svg.append('path')
                            .attr('d', lineFunction(getPathArray(from, to)))

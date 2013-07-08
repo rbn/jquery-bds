@@ -90,9 +90,7 @@ bds.makeApp = function(svg, json, options) {
   };
 
   var onShowPotentials = function() {
-    alert('test');
     var potents = bds.circles.getPotentials(bds.dice.currentFace);
-    alert(potents.length);
   };
 
   // change params to option hash

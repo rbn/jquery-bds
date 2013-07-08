@@ -1,9 +1,11 @@
 // track circles out in the field
 bds.circles = (function() {
-  var self = {};
+  var self = {},
+      names = {};
 
   var add = function(id, circle) {
     self[id] = circle;
+    names[circle.name] = circle;
     if ( circle.isStart() ) {
       self.start = circle;
       self.current = self.start;
@@ -12,6 +14,10 @@ bds.circles = (function() {
 
   var get = function(id) {
     return self[id];
+  };
+
+  var getByName = function(name) {
+    return names[name]; 
   };
 
   var first = function() {
@@ -35,8 +41,12 @@ bds.circles = (function() {
 
     for(i = 0; i < n; i ++) {
       var isDest = ( i == n - 1 );
-      var nextId = self.current.next()[0]; // TODO: temporary - only looking at "first" next
-      self.current = self[nextId];
+
+      // TODO: for now only looking at first "next" - enhance
+      // to handle all possible "nexts"
+
+      var nextName = self.current.next()[0]; 
+      self.current = getByName(nextName);
       if (! isDest ) {
         setTimeout(self.current.hop, i*250);
       }
@@ -46,6 +56,9 @@ bds.circles = (function() {
   };
 
   // get list of potential next moves
+  // n: number of moves
+  // circle: starting circle
+  // potentials: optional parameter - array that tracks found potentials
   var getPotentials = function(n, circle, potentials) {
     if ( n === undefined ) return []
     var circle = circle || self.current,
@@ -60,7 +73,7 @@ bds.circles = (function() {
     // recurse
     var nexts = circle.next();
     $.each(nexts, function() {
-      getPotentials( n - 1, get(this), potentials );
+      getPotentials( n - 1, getByName(this), potentials );
     });
 
     return potentials;
@@ -212,7 +225,6 @@ bds.makeCircle = function(elem, label) {
     $.subscribe('bdsDepotentialize', onDepotentialize);
   };
 
-  self.name = name;
   self.pop = pop;
   self.drop = drop;
   self.hop = hop;
@@ -222,7 +234,8 @@ bds.makeCircle = function(elem, label) {
   self.play = play;
   self.potentialize = potentialize;
   self.complete = complete;
-  self.id = $elem.attr('id');
+  self.id = $elem.attr('id'); 
+  self.name = $elem.data('name');
 
   // init
   wire();
