@@ -55,7 +55,7 @@ bds.makeDice = function($container) {
       ;
 
   var roll = function() {
-    self.currentFace =  Math.floor((Math.random()*3) + 1);
+    self.currentFace =  Math.floor((Math.random() * bds.maxRoll) + 1);
     on();
     $.publish('bdsRolled');
   };

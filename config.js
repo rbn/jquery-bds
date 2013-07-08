@@ -6,6 +6,7 @@ bds.leftUrl = 'left'
 bds.pathWidth = 15;
 bds.pathColor = 'blue';
 bds.dashArray = '1, 30';
+bds.maxRoll = 1;
 
 bds.infoBar = {
   info : 
