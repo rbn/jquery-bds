@@ -100,7 +100,7 @@ bds.makeApp = function(svg, json, options) {
     bds.circles.current = bds.circles.get(id);
 
     $.each(completed, function(k, v) {
-      bds.circles.get(v).complete(null, true);  
+      bds.circles.get(v).complete();  
     });
 
     bds.circles.current.pop(function() {

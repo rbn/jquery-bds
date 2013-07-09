@@ -142,6 +142,8 @@ bds.makeCircle = function(elem, label) {
   };
 
   var drop = function() {
+    var options = options || {};
+
     d3o.transition()
        .duration(500)
        .attr('r', startingRadius);
@@ -151,7 +153,8 @@ bds.makeCircle = function(elem, label) {
           .attr('font-size', 10)
           .attr('dx', function(d){return d.x - 10;})
           .attr('dy', function(d){return d.y + 5; })
-          .text('MC');
+          ;
+
     return self;
   };
 
@@ -201,7 +204,7 @@ bds.makeCircle = function(elem, label) {
     depotentialize();
   };
 
-  var complete = function(callback, shortLabel) {
+  var complete = function(callback) {
     var callback = callback || bds.noop;
 
     d3o.transition()
@@ -212,12 +215,11 @@ bds.makeCircle = function(elem, label) {
           callback();
           label.style('fill', 'black');
 
-          if (shortLabel)
-            label.text('MC')
+          // TODO: refactor short label to other method outside of complete
+          if (false)
+            label.text('???')
                  .attr('dx', function(d) { return d.x - 10; })
                  .attr('dy', function(d) { return d.y + 5; });
-          else
-            label.text('Marketing Call');
         });
   };
 
