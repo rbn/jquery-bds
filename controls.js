@@ -11,7 +11,7 @@ bds.makeActions = function( $content ) {
   $actions.append($table);
   
   $.each(['start', 'roller', 'dice', 'go', 
-            'score', 'startOver'], function() {
+             'startOver'], function() {
 
     var ctl = this,
         $td = $('<td>'),

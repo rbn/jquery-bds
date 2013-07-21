@@ -1,5 +1,11 @@
 bds.makeApp = function(svg, json, options) {
-  var self = {};
+  var self = {},
+
+    // create players
+    players = [ 
+        bds.makePlayer({ name: 'henry', points: 0 })
+      ]
+    ;
       
   // playable status flag
   var playable = false;
@@ -115,9 +121,9 @@ bds.makeApp = function(svg, json, options) {
   // create ui elements
 
   bds.controls = bds.makeActions( $(options.content) );
-  bds.page = bds.makePage( $(options.content), options.svgContainer );
-  bds.banner = bds.makeBanner( $(options.content) );
-  bds.makeBoard(svg, json, options);
+  bds.page     = bds.makePage( $(options.content), options.svgContainer );
+  bds.banner   = bds.makeBanner( $(options.content) );
+  bds.board    = bds.makeBoard(svg, json, options);
 
   // wire events
 
@@ -132,8 +138,9 @@ bds.makeApp = function(svg, json, options) {
 
   // clear local storage
 
-  bds.db.wipe()
-        .save('completed', []);
+  bds.db
+      .wipe()
+      .save('completed', []);
 
 
   // initialize global game variables
@@ -141,6 +148,9 @@ bds.makeApp = function(svg, json, options) {
   self.started = false;
   self.moveable = false;
   self.rollable = false;
+
+  // api
+  bds.players = players;
   
   return self;
 };
