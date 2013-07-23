@@ -2,9 +2,9 @@ bds.makeApp = function(svg, json, options) {
   var self = {},
 
     // create players
-    players = [ 
-        bds.makePlayer({ name: 'henry', points: 0 })
-      ]
+    players = {
+        1 : bds.makePlayer({ name: 'Henry' })
+    }
     ;
       
   // playable status flag
@@ -18,13 +18,20 @@ bds.makeApp = function(svg, json, options) {
     return playable;
   };
 
+  var _currentPlayer;
+  var currentPlayer = function(id) {
+    if ( ! id ) return _currentPlayer;
+    _currentPlayer = players[id];
+    return _currentPlayer;
+  };
+
   // event handlers
 
   var onStart = function() {
     if ( self.started ) return;
     self.started = true;
     setPlayable(true); 
-    bds.circles.first();
+    bds.circleTracker.first();
     bds.start.off(); 
     $.publish('bdsPlay', [null, 3000]);
   };
@@ -39,11 +46,11 @@ bds.makeApp = function(svg, json, options) {
     setPlayable(true);
 
     // get a list of potential next moves
-    var potents = bds.circles.getPotentials(bds.dice.currentFace);
+    var potents = bds.circleTracker.getPotentials(bds.dice.currentFace);
 
     // if only one option, play it
     if ( potents.length === 1 ) {
-      bds.circles.leaveAndLand(bds.dice.currentFace);
+      bds.circleTracker.leaveAndLand(bds.dice.currentFace);
       $.publish('bdsPlay', [null, 3000]);
     }
     // else let the user decide
@@ -59,7 +66,7 @@ bds.makeApp = function(svg, json, options) {
   var onStageComplete = function(e) {
     self.rollable = true;
     setPlayable(false);
-    bds.circles.completeStage(function() {
+    bds.circleTracker.completeStage(function() {
       bds.roller.on(); 
     });
   };
@@ -73,43 +80,42 @@ bds.makeApp = function(svg, json, options) {
 
   var onRolled = function() {
     self.rollable = false;
-    bds.roller.off();
-    bds.go.on();
+    setTimeout(bds.roller.off, bds.shortDelay);
   };
 
   var onPlay = function(e, id, delay) {
     if (! canPlay() ) return;
 
     if ( id ) {
-      if (! bds.circles.isCurrent(id) )  
+      if (! bds.circleTracker.isCurrent(id) )  
         return;
     }
 
     var delay = delay || 0;
     setTimeout(function() {
-      bds.circles.current.play();
+      bds.circleTracker.current.play();
     }, delay);
   };
 
   var onScoreChange = function() {
-    bds.score.update();      
+    //bds.score.update();      
   };
 
   var onShowPotentials = function() {
-    var potents = bds.circles.getPotentials(bds.dice.currentFace);
+    var potents = bds.circleTracker.getPotentials(bds.dice.currentFace);
   };
 
   // change params to option hash
   var hydrate = function(id, passed) {
     self.started = true;
     completed = bds.db.get( 'completed' );
-    bds.circles.current = bds.circles.get(id);
+    bds.circleTracker.current = bds.circleTracker.get(id);
 
     $.each(completed, function(k, v) {
-      bds.circles.get(v).complete();  
+      bds.circleTracker.get(v).complete();  
     });
 
-    bds.circles.current.pop(function() {
+    bds.circleTracker.current.pop(function() {
       if (passed) {
         $.publish('bdsStageComplete');
       }
@@ -120,10 +126,10 @@ bds.makeApp = function(svg, json, options) {
 
   // create ui elements
 
-  bds.controls = bds.makeActions( $(options.content) );
-  bds.page     = bds.makePage( $(options.content), options.svgContainer );
-  bds.banner   = bds.makeBanner( $(options.content) );
-  bds.board    = bds.makeBoard(svg, json, options);
+  bds.controls  =  bds.makeActions( $(options.content) );
+  bds.page      =  bds.makePage( $(options.content), options.svgContainer );
+  bds.banner    =  bds.makeBanner( $(options.content) );
+  bds.board     =  bds.makeBoard(svg, json, options);
 
   // wire events
 
@@ -142,15 +148,16 @@ bds.makeApp = function(svg, json, options) {
       .wipe()
       .save('completed', []);
 
-
   // initialize global game variables
 
   self.started = false;
   self.moveable = false;
   self.rollable = false;
+  _currentPlayer = players[1];
 
   // api
   bds.players = players;
+  bds.currentPlayer = currentPlayer;
   
   return self;
 };

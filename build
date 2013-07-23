@@ -1,5 +1,5 @@
 # build
-/home/rich/bin/compressjs.sh "namespace.js config.js db.js common.js pubsub.js circle.js controls.js board.js keeper.js player.js app.js plugin.js"
+/home/rich/bin/compressjs.sh "namespace.js config.js db.js common.js pubsub.js circleTracker.js circle.js controls.js board.js keeper.js player.js scoreTable.js app.js plugin.js"
 
 # post-build
 for f in `find ./ -type f -regex './c[0-9]+\.js$'`; do

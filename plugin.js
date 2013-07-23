@@ -23,10 +23,10 @@
             if (typeof(Storage) === 'undefined')
               alert('This application requires HTML5 support. Please use a different browser.');
 
-            bds.makeApp(svg, root, { 
-                  content: '#' + $content.attr('id'),
-                  svgContainer: '#' + $svgContent.attr('id')
-                });
+            bds.app = bds.makeApp(svg, root, { 
+                        content: '#' + $content.attr('id'),
+                        svgContainer: '#' + $svgContent.attr('id')
+                      });
 
             $left.load(bds.leftUrl);
 

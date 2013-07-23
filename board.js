@@ -55,7 +55,7 @@ bds.makeBoard = function(svg, json, options) {
 
     // TODO: clean this up - fake memo - puts all circle data in 
     // an object referencable by id - as of now has to be done
-    // prior to creating bds.circles
+    // prior to creating bds.circleTracker
     var memo = (function() {
       var obj = {};
       $.each(json, function() {
@@ -91,26 +91,6 @@ bds.makeBoard = function(svg, json, options) {
                            ;
       });
      });
-
-    return;
-    
-    var lineGraph = svg.append('path')
-                       .attr('d', lineFunction(transformCirclesToPath(json)))
-                       .attr('stroke', bds.pathColor)
-                       .attr('stroke-width', bds.pathWidth)
-                       .style('fill', 'none');
-
-
-    // var pi = Math.PI;
-    // var arc = d3.svg.arc()
-    //             .innerRadius(20)
-    //             .outerRadius(70)
-    //             .startAngle(0)
-    //             .endAngle(100);
-
-    // var arcGraph = svg.append('path')
-    //                   .attr('d', arc(transformCirclesToPath(json)))
-    //                   .attr('transform', 'translate(130,60)'); 
   };
 
   // initialization

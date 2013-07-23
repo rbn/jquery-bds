@@ -81,7 +81,7 @@ bds.makeDice = function($container) {
     $die.html(img).fadeIn('slow');
     
     // show the 'Go' button after a delay
-    setTimeout(bds.go.on, bds.mediumDelay);
+    setTimeout(bds.go.on, 1200);
 
   };
 
@@ -200,7 +200,7 @@ bds.makeGo = function($container) {
   };
 
   var on = function() {
-    $go.html('<img src="/assets/controls/go.png" />').fadeIn('slow');
+    $go.html('<img src="/assets/controls/go.png" />').fadeIn();
   };
 
   var off = function() {

@@ -79,10 +79,6 @@ bds.makeDice = function($container) {
     img += self.currentFace;
     img += '.png" />';
     $die.html(img).fadeIn('slow');
-    
-    // show the 'Go' button after a delay
-    setTimeout(bds.go.on, bds.mediumDelay);
-
   };
 
   var off = function() {
@@ -125,11 +121,9 @@ bds.makeRoller = function($container) {
   // $divGray.css('width', '75px').css('height', '75px')
   //     .css('background-image', 'url("/assets/controls/roller1Gray.jpg")')
   //     .css('background-repeat', 'no-repeat');
-  //
-  // $divGray.append($div);
-  // $roller.append($divGray);
 
-  $roller.append($div);
+  // $divGray.append($div);
+  $roller.append($divGray);
 
   // wire events
 
@@ -200,7 +194,7 @@ bds.makeGo = function($container) {
   };
 
   var on = function() {
-    $go.html('<img src="/assets/controls/go.png" />').fadeIn('slow');
+    $go.html('<img src="/assets/controls/go.png" />').fadeIn();
   };
 
   var off = function() {

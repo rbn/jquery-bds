@@ -8,6 +8,12 @@ bds.pathColor = 'blue';
 bds.dashArray = '1, 30';
 bds.maxRoll = 1;
 
+// delays
+
+bds.shortDelay = 1000;
+bds.mediumDelay = 2000;
+bds.longDelay = 4000;
+
 bds.infoBar = {
   info : 
       {
