@@ -56,6 +56,9 @@ bds.makeApp = function(svg, json, options) {
     // else let the user decide
     else {
       $.each(potents, function() { this.potentialize(); });
+      setTimeout(function() {
+        bds.message.on('please choose your next move by clicking on one of the potential stages.');
+      }, 2400); 
     }
     
     // controls
@@ -95,6 +98,9 @@ bds.makeApp = function(svg, json, options) {
     setTimeout(function() {
       bds.circleTracker.current.play();
     }, delay);
+
+    // clear any messages that might be showing
+    bds.message.off();
   };
 
   var onScoreChange = function() {

@@ -70,14 +70,15 @@ bds.makeCircle = function(elem, label) {
   };
 
   var potentialize = function() {
-   pop();
-   $elem.on('click', function() {
-      // TODO: should id be private, getter/setter?
-      // TODO: also should we be able to set circleTracker.current like this? getter/setter?
-      $.publish('bdsDepotentialize', [ self.id ]);
-      bds.circleTracker.current = self; 
-      $.publish('bdsPlay', [null, 3000]);
-   });
+   pop(function() {
+     $elem.on('click', function() {
+        // TODO: should id be private, getter/setter?
+        // TODO: also should we be able to set circleTracker.current like this? getter/setter?
+        $.publish('bdsDepotentialize', [ self.id ]);
+        bds.circleTracker.current = self; 
+        $.publish('bdsPlay', [null, 3000]);
+     });
+   }, false);
   };
 
   var depotentialize = function() {

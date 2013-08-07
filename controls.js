@@ -11,7 +11,7 @@ bds.makeActions = function( $content ) {
   $actions.append($table);
   
   $.each(['start', 'roller', 'dice', 'go', 
-             'startOver'], function() {
+             'startOver', 'message'], function() {
 
     var ctl = this,
         $td = $('<td>'),
@@ -341,5 +341,37 @@ bds.makeBanner = function($container) {
     return false;
   });
 
+  return self;
+}
+
+
+// //////////////////
+// message constructor
+//
+bds.makeMessage = function($container) {
+  var self = {},
+      $msg = $('<div>')
+      ;
+
+  // apply styles
+  $msg.css('padding', '6px')
+      .css('background-color', '#23e3eb')
+      .css('border', '2px solid red')
+      .css('display', 'none');
+
+  var on = function(message) {
+    $msg.append(message)
+        .slideDown('slow'); 
+  };
+
+  var off = function() {
+    $msg.slideUp('slow');
+  };
+
+  // API
+  self.on = on;
+  self.off = off;
+
+  $container.html($msg);
   return self;
 }
