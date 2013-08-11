@@ -15,8 +15,8 @@
 
       var svg =  d3.select(  '#' + $svgContent.attr('id') )
                       .append('svg')
-                      .attr('width', 900)
-                      .attr('height', 900);
+                      .attr('width', bds.svgWidth)
+                      .attr('height', bds.svgHeight);
 
           d3.json(bds.dataUrl, function(error, root) {
 

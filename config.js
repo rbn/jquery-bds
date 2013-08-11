@@ -1,12 +1,15 @@
 // config
 
 bds.version = '1.0.0';
+bds.svgWidth = 900;
+bds.svgHeight = 600;
 bds.dataUrl = '/stage_data';
 bds.leftUrl = 'left'
 bds.pathWidth = 15;
 bds.pathColor = 'blue';
 bds.dashArray = '1, 30';
 bds.maxRoll = 1;
+
 
 // delays
 
